@@ -5,6 +5,7 @@ public class StudentModel {
     private int age;
     private boolean isActive;
     private int id;
+
     public StudentModel(String name, int age, boolean isActive) {
         this.name = name;
         this.age = age;

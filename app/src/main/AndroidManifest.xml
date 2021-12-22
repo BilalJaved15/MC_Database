@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudentsDB">
         <activity
+            android:name=".EditStudent"
+            android:exported="false" />
+        <activity
             android:name=".ViewStudents"
             android:exported="false" />
         <activity
