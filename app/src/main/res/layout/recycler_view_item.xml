@@ -32,17 +32,17 @@
         app:layout_constraintTop_toBottomOf="@+id/stdName" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/editBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:text="Edit"
         app:layout_constraintBottom_toBottomOf="@+id/stdAge"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/deleteBtn"
         app:layout_constraintTop_toTopOf="@+id/stdName" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/deleteBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"

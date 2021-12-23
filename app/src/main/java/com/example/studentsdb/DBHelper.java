@@ -23,7 +23,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //String createTableSTatementOne = "CREATE TABLE CustTable(STUDENTID Integer PRIMARY KEY AUTOINCREMENT, " + STUDENT_NAME_FIRST + " Text, STUDENTAge Int, ActiveSTUDENT BOOL) ";
         String createTableSTatement = "CREATE TABLE " + STUDENT_TABLE + "(" + STUDENT_ID + " Integer PRIMARY KEY AUTOINCREMENT, " + STUDENT_NAME + " Text, " + STUDENT_AGE + " Int, " + ACTIVE_STUDENT + " BOOL) ";
         db.execSQL(createTableSTatement);
     }
@@ -36,7 +35,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void  addStudent(StudentModel STUDENTModel){
         SQLiteDatabase db = this.getWritableDatabase();
-        //Hash map, as we did in bundles
         ContentValues cv = new ContentValues();
 
         cv.put(STUDENT_NAME, STUDENTModel.getName());
@@ -44,33 +42,36 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(ACTIVE_STUDENT, STUDENTModel.isActive());
         db.insert(STUDENT_TABLE, null, cv);
         db.close();
-
-        //NullCoumnHack
-        //long insert =
-        //if (insert == -1) { return false; }
-        //else{return true;}
     }
 
     public ArrayList<StudentModel> getAllStudents() {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursorCourses = db.rawQuery("SELECT * FROM " + STUDENT_TABLE, null);
-
         ArrayList<StudentModel> studentArrayList = new ArrayList<>();
-
-        // moving our cursor to first position.
         if (cursorCourses.moveToFirst()) {
             do {
-
-                studentArrayList.add(new StudentModel(cursorCourses.getString(1),
+                StudentModel std = new StudentModel(cursorCourses.getString(1),
                         cursorCourses.getInt(2),
-                        cursorCourses.getInt(3) == 1 ? true : false));
+                        cursorCourses.getInt(3) == 1 ? true : false);
+                std.setId(cursorCourses.getInt(0));
+                studentArrayList.add(std);
             } while (cursorCourses.moveToNext());
 
         }
 
         cursorCourses.close();
         return studentArrayList;
+    }
+    
+    public void updateStudent(StudentModel model){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(STUDENT_NAME, model.getName());
+        cv.put(STUDENT_AGE, model.getAge());
+        db.update(STUDENT_TABLE, cv, STUDENT_ID+"= ?", new String[]{Integer.toString(model.getId())});
+    }
+    public void deleteStudent(StudentModel model){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(STUDENT_TABLE, STUDENT_ID+"= ?", new String[]{Integer.toString(model.getId())});
     }
 }

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -30,5 +31,30 @@ public class ViewStudents extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new RecyclerViewAdapter(stdList, ViewStudents.this);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        stdList = new DBHelper(this).getAllStudents();
+        adapter = new RecyclerViewAdapter(stdList,this);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        stdList = new DBHelper(this).getAllStudents();
+        adapter = new RecyclerViewAdapter(stdList,this);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    public static void Relaunch(Activity context){
+        context.finish();
+        context.overridePendingTransition(0, 0);
+        context.startActivity(context.getIntent());
+        context.overridePendingTransition(0, 0);
     }
 }
